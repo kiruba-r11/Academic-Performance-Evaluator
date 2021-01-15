@@ -8,8 +8,9 @@ fun displayMenu(): Int {
     println("   1. Calculate your Academic Performance")
     println("   2. How it works")
     println()
-    println("Input Here : ")
+    print("Input Here : ")
     val choice = (readLine()!!).toInt()
+    println()
     return choice
 }
 
@@ -123,6 +124,9 @@ fun displayCalculateMenu() {
     val individualTheorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInTheorySubjects)
     val individualLaboratorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInLaboratorySubjects)
     val isEligibleToWriteExternals = isEligibleToWriteExternals(overallAttendancePercentageForTheoryClasses , individualTheorySubjectsOverallInternalsPercentage , overallAttendancePercentageForLaboratoryClasses , individualLaboratorySubjectsOverallInternalsPercentage)
+    var individualTheorySubjectsGPA = ArrayList <Double> (noOfTotalTheorySubjects)
+    var individualLaboratorySubjectsGPA = ArrayList <Double> (noOfTotalLaboratorySubjects)
+    var overallGPA = 0.0
     if(isEligibleToWriteExternals) {
         println("Theory Externals Examination : ")
         println()
@@ -144,9 +148,9 @@ fun displayCalculateMenu() {
         }
         val isEligibleToCalculateGPA = isEligibleToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
         if(isEligibleToCalculateGPA) {
-            val individualTheorySubjectsGPA = calculateIndividualSubjectsGPA(individualTheorySubjectsOverallInternalsPercentage , individualTheorySubjectsExternalsPercentage , theorySubjectCredits)
-            val individualLaboratorySubjectsGPA = calculateIndividualSubjectsGPA(individualLaboratorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsExternalsPercentage , laboratorySubjectCredits)
-            val overallGPA = calculateOverallGPA(individualTheorySubjectsGPA , individualLaboratorySubjectsGPA)
+            individualTheorySubjectsGPA = calculateIndividualSubjectsGPA(individualTheorySubjectsOverallInternalsPercentage , individualTheorySubjectsExternalsPercentage , theorySubjectCredits)
+            individualLaboratorySubjectsGPA = calculateIndividualSubjectsGPA(individualLaboratorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsExternalsPercentage , laboratorySubjectCredits)
+            overallGPA = calculateOverallGPA(individualTheorySubjectsGPA , individualLaboratorySubjectsGPA)
         }
         else {
             reasonForUnEligibility = findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
@@ -156,6 +160,61 @@ fun displayCalculateMenu() {
     else {
         reasonForUnEligibility = findReasonForUnEligibilityToWriteExternals(overallAttendancePercentageForTheoryClasses , overallAttendancePercentageForLaboratoryClasses , individualTheorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsOverallInternalsPercentage)
         println("Note : You cannot write Externals as you have not passed the minimum criteria to be eligible for it.")
+    }
+
+    println("General Information : ")
+    println()
+    println("Name : $name")
+    println("Register No. : $regNo")
+    println("Semester No. : $semesterNo")
+    println()
+    println("Subject Credits Information : ")
+    println()
+    println("   Theory : ")
+    println()
+    for(index in 0 until noOfTotalTheorySubjects)
+        println("       Subject - $index : ${theorySubjectCredits[index]}")
+    println()
+    println("   Laboratory : ")
+    println()
+    for(index in 0 until noOfTotalLaboratorySubjects)
+        println("       Subject - $index : ${laboratorySubjectCredits[index]}")
+    println()
+    println("Overall Attendance Percentage")
+    println()
+    println("   Theory Classes : $overallAttendancePercentageForTheoryClasses")
+    println("   Laboratory Classes : $overallAttendancePercentageForLaboratoryClasses")
+    println()
+    if(reasonForUnEligibility == "") {
+        println("Eligible to write Externals : YES")
+        println()
+    }
+    else {
+        println("Eligible to write Externals : NO")
+        println("Reason for Uneligibility : $reasonForUnEligibility")
+        println()
+    }
+    if(reasonForUnEligibility == "") {
+        println("Eligible to calculate GPA : YES")
+        println()
+        println("Individual Subject-wise GPA : ")
+        println()
+        println("   Theory Subjects : ")
+        println()
+        for(index in 0 until noOfTotalTheorySubjects)
+            println("       Subject - ${index + 1} : ${individualTheorySubjectsGPA[index]}")
+        println()
+        println("   Laboratory Subjects : ")
+        println()
+        for(index in 0 until noOfTotalLaboratorySubjects)
+            println("       Subject - ${index + 1} : ${individualLaboratorySubjectsGPA[index]}")
+        println()
+        println("Overall GPA : $overallGPA")
+    }
+    else {
+        println("Eligible to calculate GPA : NO")
+        println("Reason for Uneligibility : $reasonForUnEligibility")
+        println()
     }
 }
 
@@ -360,16 +419,16 @@ fun findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPe
 }
 
 fun main(args: Array <String>) {
-//    var repeat = 0
-//    do {
-//        val choice = displayMenu()
-//        when (choice) {
-//            1 -> displayCalculateMenu()
-//            2 -> displayWorksMenu()
-//        }
-//        println("Do you want to continue (1 / 0) : ")
-//        repeat = (readLine()!!).toInt()
-//    } while(repeat == 1)
-
-    displayCalculateMenu()
+    var repeat = 0
+    do {
+        val choice = displayMenu()
+        when (choice) {
+            1 -> displayCalculateMenu()
+            2 -> displayWorksMenu()
+        }
+        println()
+        print("Do you want to continue (1 / 0) : ")
+        repeat = (readLine()!!).toInt()
+        println()
+    } while(repeat == 1)
 }
