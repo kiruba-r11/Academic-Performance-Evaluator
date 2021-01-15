@@ -18,42 +18,47 @@ fun displayCalculateMenu() {
     println()
     println("Enter the following details to calculate your academic performance")
     println()
-//    println("General Information : ")
-//    println()
-//    println("   Enter your Name : ")
-//    val name = readLine()
-//    println("   Enter your Reg. No. : ")
-//    val regNo = (readLine()!!).toLong()
-//    println("   Enter your Semester No. : ")
-//    val semesterNo = (readLine()!!).toInt()
+    println("General Information : ")
+    println()
+    print("   Enter your Name : ")
+    val name = readLine()
+    print("   Enter your Reg. No. : ")
+    val regNo = (readLine()!!).toLong()
+    print("   Enter your Semester No. : ")
+    val semesterNo = (readLine()!!).toInt()
+    println()
     println("Subject Contact Periods Information : ")
     println()
-    println("   Enter Total No. of Theory Subjects : ")
+    print("   Enter Total No. of Theory Subjects : ")
     val noOfTotalTheorySubjects = (readLine()!!).toInt()
+    println()
     val noOfTotalTheoryClassesConducted = ArrayList <Int> (noOfTotalTheorySubjects)
     val noOfTotalTheoryClassesAttended = ArrayList <Int> (noOfTotalTheorySubjects)
     for(i in 1..noOfTotalTheorySubjects) {
         println("       Subject - $i : ")
         println()
-        println("           Enter Total No. of Theory Classes conducted : ")
+        print("           Enter Total No. of Theory Classes conducted : ")
         val classesConducted = (readLine()!!).toInt()
         noOfTotalTheoryClassesConducted.add(classesConducted)
-        println("           Enter Total No. of Theory Classes attended : ")
+        print("           Enter Total No. of Theory Classes attended : ")
         val classesAttended = (readLine()!!).toInt()
+        println()
         noOfTotalTheoryClassesAttended.add(classesAttended)
     }
-    println("   Enter Total No. of Laboratory Subjects : ")
+    print("   Enter Total No. of Laboratory Subjects : ")
     val noOfTotalLaboratorySubjects = (readLine()!!).toInt()
+    println()
     val noOfTotalLaboratoryClassesConducted = ArrayList <Int> (noOfTotalLaboratorySubjects)
     val noOfTotalLaboratoryClassesAttended = ArrayList <Int> (noOfTotalLaboratorySubjects)
     for(i in 1..noOfTotalLaboratorySubjects) {
         println("       Subject - $i : ")
         println()
-        println("           Enter Total No. of Laboratory Classes conducted : ")
+        print("           Enter Total No. of Laboratory Classes conducted : ")
         val classesConducted = (readLine()!!).toInt()
         noOfTotalLaboratoryClassesConducted.add(classesConducted)
-        println("           Enter Total No. of Laboratory Classes attended : ")
+        print("           Enter Total No. of Laboratory Classes attended : ")
         val classesAttended = (readLine()!!).toInt()
+        println()
         noOfTotalLaboratoryClassesAttended.add(classesAttended)
     }
     println("Subject Credits Information : ")
@@ -62,16 +67,18 @@ fun displayCalculateMenu() {
     println()
     val theorySubjectCredits = ArrayList <Int> (noOfTotalTheorySubjects)
     for(i in 1..noOfTotalTheorySubjects) {
-        println("       Enter the Credits of Theory Subject $i : ")
+        print("       Enter the Credits of Theory Subject $i : ")
         val currentSubjectCredits = (readLine()!!).toInt()
+        println()
         theorySubjectCredits.add(currentSubjectCredits)
     }
     println("   Laboratory Subjects : ")
     println()
     val laboratorySubjectCredits = ArrayList <Int> (noOfTotalLaboratorySubjects)
     for(i in 1..noOfTotalLaboratorySubjects) {
-        println("       Enter the Credits of Laboratory Subject $i : ")
+        print("       Enter the Credits of Laboratory Subject $i : ")
         val currentSubjectCredits = (readLine()!!).toInt()
+        println()
         laboratorySubjectCredits.add(currentSubjectCredits)
     }
     var reasonForUnEligibility = ""
@@ -79,37 +86,40 @@ fun displayCalculateMenu() {
     val overallAttendancePercentageForLaboratoryClasses = calculateAttendancePercentage(noOfTotalLaboratoryClassesConducted , noOfTotalLaboratoryClassesAttended)
     println("Theory Internals Examination Information : ")
     println()
-    println("   Enter Total No. of Internals Conducted for Theory Subjects: ")
+    print("   Enter Total No. of Internals Conducted for Theory Subjects: ")
     val noOfInternalsForTheorySubjects = (readLine()!!).toInt()
+    println()
     val internalsMarksInTheorySubjects = ArrayList <ArrayList <Int>> (noOfInternalsForTheorySubjects)
     for(i in 1..noOfInternalsForTheorySubjects) {
         val currentInternalsMarks = ArrayList <Int> (noOfTotalTheorySubjects)
-        println("Theory Internals Examination - $i : ")
+        println("   Theory Internals Examination - $i : ")
         println()
         for(j in 1..noOfTotalTheorySubjects) {
-            println("   Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
+            print("     Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
             val currentSubjectInternalMarks = (readLine()!!).toInt()
+            println()
             currentInternalsMarks.add(currentSubjectInternalMarks)
         }
         internalsMarksInTheorySubjects.add(currentInternalsMarks)
     }
     println("Laboratory Internals Examination Information : ")
     println()
-    println("   Enter Total No. of Internals Conducted for Laboratory Subjects: ")
+    print("   Enter Total No. of Internals Conducted for Laboratory Subjects: ")
     val noOfInternalsForLaboratorySubjects = (readLine()!!).toInt()
+    println()
     val internalsMarksInLaboratorySubjects = ArrayList <ArrayList <Int>> (noOfInternalsForLaboratorySubjects)
     for(i in 1..noOfInternalsForLaboratorySubjects) {
         val currentInternalsMarks = ArrayList <Int> (noOfTotalLaboratorySubjects)
-        println("Laboratory Internals Examination - $i : ")
+        println("   Laboratory Internals Examination - $i : ")
         println()
         for(j in 1..noOfTotalLaboratorySubjects) {
-            println("   Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
+            print("     Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
             val currentSubjectInternalMarks = (readLine()!!).toInt()
+            println()
             currentInternalsMarks.add(currentSubjectInternalMarks)
         }
         internalsMarksInLaboratorySubjects.add(currentInternalsMarks)
     }
-
     val individualTheorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInTheorySubjects)
     val individualLaboratorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInLaboratorySubjects)
     val isEligibleToWriteExternals = isEligibleToWriteExternals(overallAttendancePercentageForTheoryClasses , individualTheorySubjectsOverallInternalsPercentage , overallAttendancePercentageForLaboratoryClasses , individualLaboratorySubjectsOverallInternalsPercentage)
@@ -118,17 +128,18 @@ fun displayCalculateMenu() {
         println()
         val individualTheorySubjectsExternalsPercentage = ArrayList <Int> (noOfTotalTheorySubjects)
         for (i in 1..noOfTotalTheorySubjects) {
-            println("   Enter Total Marks scored (out of 100) in Externals in Theory Subject $i : ")
+            print("   Enter Total Marks scored (out of 100) in Externals in Theory Subject $i : ")
             val currentSubjectsExternalsPercentage = (readLine()!!).toInt()
+            println()
             individualTheorySubjectsExternalsPercentage.add(currentSubjectsExternalsPercentage)
         }
         println("Laboratory Externals Examination : ")
         println()
         val individualLaboratorySubjectsExternalsPercentage = ArrayList <Int> (noOfTotalLaboratorySubjects)
-        for (i in 1..noOfTotalLaboratorySubjects) {6
-
-            println("   Enter Total Marks scored (out of 100) in Externals in Laboratory Subject $i : ")
+        for (i in 1..noOfTotalLaboratorySubjects) {
+            print("   Enter Total Marks scored (out of 100) in Externals in Laboratory Subject $i : ")
             val currentSubjectsExternalsPercentage = (readLine()!!).toInt()
+            println()
             individualLaboratorySubjectsExternalsPercentage.add(currentSubjectsExternalsPercentage)
         }
         val isEligibleToCalculateGPA = isEligibleToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
@@ -136,23 +147,14 @@ fun displayCalculateMenu() {
             val individualTheorySubjectsGPA = calculateIndividualSubjectsGPA(individualTheorySubjectsOverallInternalsPercentage , individualTheorySubjectsExternalsPercentage , theorySubjectCredits)
             val individualLaboratorySubjectsGPA = calculateIndividualSubjectsGPA(individualLaboratorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsExternalsPercentage , laboratorySubjectCredits)
             val overallGPA = calculateOverallGPA(individualTheorySubjectsGPA , individualLaboratorySubjectsGPA)
-
-            for(item in individualLaboratorySubjectsGPA) {
-                println(item)
-            }
-
-            println("Overall : $overallGPA")
-
         }
         else {
             reasonForUnEligibility = findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
-            println(reasonForUnEligibility)
             println("Note : You are not eligible for GPA Calculation as you have not passed the minimum criteria in your Externals Exam")
         }
     }
     else {
         reasonForUnEligibility = findReasonForUnEligibilityToWriteExternals(overallAttendancePercentageForTheoryClasses , overallAttendancePercentageForLaboratoryClasses , individualTheorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsOverallInternalsPercentage)
-        println(reasonForUnEligibility)
         println("Note : You cannot write Externals as you have not passed the minimum criteria to be eligible for it.")
     }
 }
@@ -251,18 +253,10 @@ fun isEligibleToCalculateGPA(theoryExternalsMarks: ArrayList<Int> , laboratoryEx
 fun calculateIndividualSubjectsGPA(internalsMarks: ArrayList <Double> , externalsMarks: ArrayList <Int> , subjectCredits: ArrayList <Int>): ArrayList <Double> {
 
     val noOfTotalSubjects = externalsMarks.size
-    val individualSubjectsGPA = ArrayList<Double>()
-
-//    for(item in internalsMarks)
-//        println(item)
-//
-//    for(item in externalsMarks)
-//        println(item)
+    val individualSubjectsGPA = ArrayList <Double> ()
 
     for (index in 0 until noOfTotalSubjects) {
-        var scored = (internalsMarks[index] * (20 / 100) + externalsMarks[index].toDouble() * (80 / 100))
-        println(scored)
-        val currentSubjectGPA = (subjectCredits[index] * ceil((internalsMarks[index] * (20 / 100) + externalsMarks[index] * (80 / 100)) / 10)) / (subjectCredits[index] * 10)
+        val currentSubjectGPA = ((subjectCredits[index] * ceil((internalsMarks[index] * (20.0 / 100) + externalsMarks[index] * (80.0 / 100)) / 10)) / (subjectCredits[index] * 10)) * 10
         individualSubjectsGPA.add(currentSubjectGPA)
     }
 
@@ -316,22 +310,22 @@ fun findReasonForUnEligibilityToWriteExternals(overallAttendancePercentageForThe
         }
     }
 
-    if(isPoorAttendanceInLaboratoryClasses && isPoorAttendanceInTheoryClasses)
-        reasonForUnEligibility = "Poor Attendance Record in Both Theory and Laboratory Classes"
+    reasonForUnEligibility = if(isPoorAttendanceInLaboratoryClasses && isPoorAttendanceInTheoryClasses)
+        "Poor Attendance Record in Both Theory and Laboratory Classes"
     else if(isPoorAttendanceInTheoryClasses)
-        reasonForUnEligibility = "Poor Attendance Record in Theory Classes"
+        "Poor Attendance Record in Theory Classes"
     else
-        reasonForUnEligibility = "Poor Attendance Record in Laboratory Classes"
+        "Poor Attendance Record in Laboratory Classes"
 
     if(reasonForUnEligibility != "")
         reasonForUnEligibility += " and "
 
-    if(isPoorPerformanceInTheorySubjectsInternals && isPoorPerformanceInLaboratorySubjectsInternals)
-        reasonForUnEligibility += "Poor Performance in Both Theory and Laboratory Subjects in Internals"
+    reasonForUnEligibility += if(isPoorPerformanceInTheorySubjectsInternals && isPoorPerformanceInLaboratorySubjectsInternals)
+        "Poor Performance in Both Theory and Laboratory Subjects in Internals"
     else if(isPoorPerformanceInTheorySubjectsInternals)
-        reasonForUnEligibility += "Poor Performance in Theory Subjects in Internals"
+        "Poor Performance in Theory Subjects in Internals"
     else
-        reasonForUnEligibility += "Poor Performance in Laboratory Subjects in Internals"
+        "Poor Performance in Laboratory Subjects in Internals"
 
     return reasonForUnEligibility
 }
@@ -340,7 +334,6 @@ fun findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPe
 
     var isPoorPerformanceInTheorySubjectsExternals = false
     var isPoorPerformanceInLaboratorySubjectsExternals = false
-    var reasonForUnEligibility = ""
 
     for(item in individualTheorySubjectsExternalsPercentage) {
         if(item < 40) {
@@ -356,12 +349,12 @@ fun findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPe
         }
     }
 
-    if(isPoorPerformanceInTheorySubjectsExternals && isPoorPerformanceInLaboratorySubjectsExternals)
-        reasonForUnEligibility = "Poor Performance in Both Theory And Laboratory Subjects in Externals"
+    val reasonForUnEligibility = if(isPoorPerformanceInTheorySubjectsExternals && isPoorPerformanceInLaboratorySubjectsExternals)
+        "Poor Performance in Both Theory And Laboratory Subjects in Externals"
     else if(isPoorPerformanceInTheorySubjectsExternals)
-        reasonForUnEligibility = "Poor Performance in Theory Subjects in Externals"
+        "Poor Performance in Theory Subjects in Externals"
     else
-        reasonForUnEligibility = "Poor Performance in Laboratory Subjects in Externals"
+        "Poor Performance in Laboratory Subjects in Externals"
 
     return reasonForUnEligibility
 }
