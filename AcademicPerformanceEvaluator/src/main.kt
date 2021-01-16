@@ -1,3 +1,4 @@
+import java.lang.NumberFormatException
 import kotlin.math.ceil
 
 class AttendancePerformanceEvaluator {
@@ -24,160 +25,223 @@ class AttendancePerformanceEvaluator {
         println("   1. Calculate your Academic Performance")
         println("   2. How it works")
         println()
-        print("Input Here : ")
-        val choice = (readLine()!!).toInt()
-        println()
+        var choice = 0
+        var check: Boolean
+        do {
+            try {
+                print("Input Here : ")
+                choice = (readLine()!!).toInt()
+                if(choice != 1 && choice != 2)
+                    throw ArithmeticException()
+                println()
+                check = false
+            }
+            catch(e: NumberFormatException) {
+                println("Please enter a proper integer")
+                println()
+                check = true
+            }
+            catch(e: ArithmeticException) {
+                println("Invalid Input! Please enter a proper input")
+                println()
+                check = true
+            }
+        } while(check)
         return choice
     }
 
     fun displayCalculateMenu() {
-        println("A C A D E M I C   P E R F O R M A N C E   E V A L U A T O R")
-        println()
-        println("Enter the following details to calculate your academic performance")
-        println()
-        println("General Information : ")
-        println()
-        print("   Enter your Name : ")
-        studentName = readLine()!!
-        print("   Enter your Reg. No. : ")
-        studentRegNo = (readLine()!!).toLong()
-        print("   Enter your Semester No. : ")
-        studentSemesterNo = (readLine()!!).toInt()
-        println()
-        println("Subject Contact Periods Information : ")
-        println()
-        print("   Enter Total No. of Theory Subjects : ")
-        noOfTotalTheorySubjects = (readLine()!!).toInt()
-        println()
-        val noOfTotalTheoryClassesConducted = ArrayList <Int> (noOfTotalTheorySubjects)
-        val noOfTotalTheoryClassesAttended = ArrayList <Int> (noOfTotalTheorySubjects)
-        for(i in 1..noOfTotalTheorySubjects) {
-            println("       Subject - $i : ")
+        try {
+            println("A C A D E M I C   P E R F O R M A N C E   E V A L U A T O R")
             println()
-            print("           Enter Total No. of Theory Classes conducted : ")
-            val classesConducted = (readLine()!!).toInt()
-            noOfTotalTheoryClassesConducted.add(classesConducted)
-            print("           Enter Total No. of Theory Classes attended : ")
-            val classesAttended = (readLine()!!).toInt()
+            println("Enter the following details to calculate your academic performance")
             println()
-            noOfTotalTheoryClassesAttended.add(classesAttended)
-        }
-        print("   Enter Total No. of Laboratory Subjects : ")
-        noOfTotalLaboratorySubjects = (readLine()!!).toInt()
-        println()
-        val noOfTotalLaboratoryClassesConducted = ArrayList <Int> (noOfTotalLaboratorySubjects)
-        val noOfTotalLaboratoryClassesAttended = ArrayList <Int> (noOfTotalLaboratorySubjects)
-        for(i in 1..noOfTotalLaboratorySubjects) {
-            println("       Subject - $i : ")
+            println("General Information : ")
             println()
-            print("           Enter Total No. of Laboratory Classes conducted : ")
-            val classesConducted = (readLine()!!).toInt()
-            noOfTotalLaboratoryClassesConducted.add(classesConducted)
-            print("           Enter Total No. of Laboratory Classes attended : ")
-            val classesAttended = (readLine()!!).toInt()
+            print("   Enter your Name : ")
+            studentName = readLine()!!
+            print("   Enter your Reg. No. : ")
+            studentRegNo = (readLine()!!).toLong()
+            if(studentRegNo <= 0)
+                throw ArithmeticException()
+            print("   Enter your Semester No. : ")
+            studentSemesterNo = (readLine()!!).toInt()
+            if(studentSemesterNo <= 0)
+                throw ArithmeticException()
             println()
-            noOfTotalLaboratoryClassesAttended.add(classesAttended)
-        }
-        println("Subject Credits Information : ")
-        println()
-        println("   Theory Subjects : ")
-        println()
-        for(i in 1..noOfTotalTheorySubjects) {
-            print("       Enter the Credits of Theory Subject $i : ")
-            val currentSubjectCredits = (readLine()!!).toInt()
+            println("Subject Contact Periods Information : ")
             println()
-            theorySubjectCredits.add(currentSubjectCredits)
-        }
-        println("   Laboratory Subjects : ")
-        println()
-        for(i in 1..noOfTotalLaboratorySubjects) {
-            print("       Enter the Credits of Laboratory Subject $i : ")
-            val currentSubjectCredits = (readLine()!!).toInt()
+            print("   Enter Total No. of Theory Subjects : ")
+            noOfTotalTheorySubjects = (readLine()!!).toInt()
+            if(noOfTotalTheorySubjects <= 0)
+                throw ArithmeticException()
             println()
-            laboratorySubjectCredits.add(currentSubjectCredits)
-        }
-        reasonForUnEligibility = ""
-        overallAttendancePercentageForTheoryClasses = calculateAttendancePercentage(noOfTotalTheoryClassesConducted , noOfTotalTheoryClassesAttended)
-        overallAttendancePercentageForLaboratoryClasses = calculateAttendancePercentage(noOfTotalLaboratoryClassesConducted , noOfTotalLaboratoryClassesAttended)
-        println("Theory Internals Examination Information : ")
-        println()
-        print("   Enter Total No. of Internals Conducted for Theory Subjects: ")
-        val noOfInternalsForTheorySubjects = (readLine()!!).toInt()
-        println()
-        val internalsMarksInTheorySubjects = ArrayList <ArrayList <Int>> (noOfInternalsForTheorySubjects)
-        for(i in 1..noOfInternalsForTheorySubjects) {
-            val currentInternalsMarks = ArrayList <Int> (noOfTotalTheorySubjects)
-            println("   Theory Internals Examination - $i : ")
-            println()
-            for(j in 1..noOfTotalTheorySubjects) {
-                print("     Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
-                val currentSubjectInternalMarks = (readLine()!!).toInt()
-                println()
-                currentInternalsMarks.add(currentSubjectInternalMarks)
-            }
-            internalsMarksInTheorySubjects.add(currentInternalsMarks)
-        }
-        println("Laboratory Internals Examination Information : ")
-        println()
-        print("   Enter Total No. of Internals Conducted for Laboratory Subjects: ")
-        val noOfInternalsForLaboratorySubjects = (readLine()!!).toInt()
-        println()
-        val internalsMarksInLaboratorySubjects = ArrayList <ArrayList <Int>> (noOfInternalsForLaboratorySubjects)
-        for(i in 1..noOfInternalsForLaboratorySubjects) {
-            val currentInternalsMarks = ArrayList <Int> (noOfTotalLaboratorySubjects)
-            println("   Laboratory Internals Examination - $i : ")
-            println()
-            for(j in 1..noOfTotalLaboratorySubjects) {
-                print("     Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
-                val currentSubjectInternalMarks = (readLine()!!).toInt()
-                println()
-                currentInternalsMarks.add(currentSubjectInternalMarks)
-            }
-            internalsMarksInLaboratorySubjects.add(currentInternalsMarks)
-        }
-        val individualTheorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInTheorySubjects)
-        val individualLaboratorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInLaboratorySubjects)
-        val isEligibleToWriteExternals = isEligibleToWriteExternals(overallAttendancePercentageForTheoryClasses , individualTheorySubjectsOverallInternalsPercentage , overallAttendancePercentageForLaboratoryClasses , individualLaboratorySubjectsOverallInternalsPercentage)
-        var isEligibleToCalculateGPA = false
-        overallGPA = 0.0
-        if(isEligibleToWriteExternals) {
-            println("Theory Externals Examination : ")
-            println()
-            val individualTheorySubjectsExternalsPercentage = ArrayList <Int> (noOfTotalTheorySubjects)
+            val noOfTotalTheoryClassesConducted = ArrayList<Int>(noOfTotalTheorySubjects)
+            val noOfTotalTheoryClassesAttended = ArrayList<Int>(noOfTotalTheorySubjects)
             for (i in 1..noOfTotalTheorySubjects) {
-                print("   Enter Total Marks scored (out of 100) in Externals in Theory Subject $i : ")
-                val currentSubjectsExternalsPercentage = (readLine()!!).toInt()
+                println("       Subject - $i : ")
                 println()
-                individualTheorySubjectsExternalsPercentage.add(currentSubjectsExternalsPercentage)
+                print("           Enter Total No. of Theory Classes conducted : ")
+                val classesConducted = (readLine()!!).toInt()
+                if(classesConducted <= 0)
+                    throw ArithmeticException()
+                noOfTotalTheoryClassesConducted.add(classesConducted)
+                print("           Enter Total No. of Theory Classes attended : ")
+                val classesAttended = (readLine()!!).toInt()
+                if(classesAttended <= 0)
+                    throw ArithmeticException()
+                println()
+                noOfTotalTheoryClassesAttended.add(classesAttended)
             }
-            println("Laboratory Externals Examination : ")
+            print("   Enter Total No. of Laboratory Subjects : ")
+            noOfTotalLaboratorySubjects = (readLine()!!).toInt()
+            if(noOfTotalLaboratorySubjects <= 0)
+                throw ArithmeticException()
             println()
-            val individualLaboratorySubjectsExternalsPercentage = ArrayList <Int> (noOfTotalLaboratorySubjects)
+            val noOfTotalLaboratoryClassesConducted = ArrayList<Int>(noOfTotalLaboratorySubjects)
+            val noOfTotalLaboratoryClassesAttended = ArrayList<Int>(noOfTotalLaboratorySubjects)
             for (i in 1..noOfTotalLaboratorySubjects) {
-                print("   Enter Total Marks scored (out of 100) in Externals in Laboratory Subject $i : ")
-                val currentSubjectsExternalsPercentage = (readLine()!!).toInt()
+                println("       Subject - $i : ")
                 println()
-                individualLaboratorySubjectsExternalsPercentage.add(currentSubjectsExternalsPercentage)
+                print("           Enter Total No. of Laboratory Classes conducted : ")
+                val classesConducted = (readLine()!!).toInt()
+                if(classesConducted <= 0)
+                    throw ArithmeticException()
+                noOfTotalLaboratoryClassesConducted.add(classesConducted)
+                print("           Enter Total No. of Laboratory Classes attended : ")
+                val classesAttended = (readLine()!!).toInt()
+                if(classesAttended <= 0)
+                    throw ArithmeticException()
+                println()
+                noOfTotalLaboratoryClassesAttended.add(classesAttended)
             }
-            isEligibleToCalculateGPA = isEligibleToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
-            if(isEligibleToCalculateGPA) {
-                individualTheorySubjectsGPA = calculateIndividualSubjectsGPA(individualTheorySubjectsOverallInternalsPercentage , individualTheorySubjectsExternalsPercentage , theorySubjectCredits)
-                individualLaboratorySubjectsGPA = calculateIndividualSubjectsGPA(individualLaboratorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsExternalsPercentage , laboratorySubjectCredits)
-                overallGPA = calculateOverallGPA(individualTheorySubjectsGPA , individualLaboratorySubjectsGPA)
+            println("Subject Credits Information : ")
+            println()
+            println("   Theory Subjects : ")
+            println()
+            for (i in 1..noOfTotalTheorySubjects) {
+                print("       Enter the Credits of Theory Subject $i : ")
+                val currentSubjectCredits = (readLine()!!).toInt()
+                if(currentSubjectCredits <= 0)
+                    throw ArithmeticException()
+                println()
+                theorySubjectCredits.add(currentSubjectCredits)
+            }
+            println("   Laboratory Subjects : ")
+            println()
+            for (i in 1..noOfTotalLaboratorySubjects) {
+                print("       Enter the Credits of Laboratory Subject $i : ")
+                val currentSubjectCredits = (readLine()!!).toInt()
+                if(currentSubjectCredits <= 0)
+                    throw ArithmeticException()
+                println()
+                laboratorySubjectCredits.add(currentSubjectCredits)
+            }
+            reasonForUnEligibility = ""
+            overallAttendancePercentageForTheoryClasses = calculateAttendancePercentage(noOfTotalTheoryClassesConducted, noOfTotalTheoryClassesAttended)
+            overallAttendancePercentageForLaboratoryClasses = calculateAttendancePercentage(noOfTotalLaboratoryClassesConducted, noOfTotalLaboratoryClassesAttended)
+            println("Theory Internals Examination Information : ")
+            println()
+            print("   Enter Total No. of Internals Conducted for Theory Subjects: ")
+            val noOfInternalsForTheorySubjects = (readLine()!!).toInt()
+            if(noOfInternalsForTheorySubjects <= 0)
+                throw ArithmeticException()
+            println()
+            val internalsMarksInTheorySubjects = ArrayList<ArrayList<Int>>(noOfInternalsForTheorySubjects)
+            for (i in 1..noOfInternalsForTheorySubjects) {
+                val currentInternalsMarks = ArrayList<Int>(noOfTotalTheorySubjects)
+                println("   Theory Internals Examination - $i : ")
+                println()
+                for (j in 1..noOfTotalTheorySubjects) {
+                    print("     Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
+                    val currentSubjectInternalMarks = (readLine()!!).toInt()
+                    if(currentSubjectInternalMarks <= 0)
+                        throw ArithmeticException()
+                    println()
+                    currentInternalsMarks.add(currentSubjectInternalMarks)
+                }
+                internalsMarksInTheorySubjects.add(currentInternalsMarks)
+            }
+            println("Laboratory Internals Examination Information : ")
+            println()
+            print("   Enter Total No. of Internals Conducted for Laboratory Subjects: ")
+            val noOfInternalsForLaboratorySubjects = (readLine()!!).toInt()
+            if(noOfInternalsForLaboratorySubjects <= 0)
+                throw ArithmeticException()
+            println()
+            val internalsMarksInLaboratorySubjects = ArrayList<ArrayList<Int>>(noOfInternalsForLaboratorySubjects)
+            for (i in 1..noOfInternalsForLaboratorySubjects) {
+                val currentInternalsMarks = ArrayList<Int>(noOfTotalLaboratorySubjects)
+                println("   Laboratory Internals Examination - $i : ")
+                println()
+                for (j in 1..noOfTotalLaboratorySubjects) {
+                    print("     Enter Total Marks scored (out of 100) in Internal $i in Subject $j : ")
+                    val currentSubjectInternalMarks = (readLine()!!).toInt()
+                    if(currentSubjectInternalMarks <= 0)
+                        throw ArithmeticException()
+                    println()
+                    currentInternalsMarks.add(currentSubjectInternalMarks)
+                }
+                internalsMarksInLaboratorySubjects.add(currentInternalsMarks)
+            }
+            val individualTheorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInTheorySubjects)
+            val individualLaboratorySubjectsOverallInternalsPercentage = calculateInternalsPercentage(internalsMarksInLaboratorySubjects)
+            val isEligibleToWriteExternals = isEligibleToWriteExternals(overallAttendancePercentageForTheoryClasses , individualTheorySubjectsOverallInternalsPercentage , overallAttendancePercentageForLaboratoryClasses , individualLaboratorySubjectsOverallInternalsPercentage)
+            var isEligibleToCalculateGPA = false
+            overallGPA = 0.0
+            if (isEligibleToWriteExternals) {
+                println("Theory Externals Examination : ")
+                println()
+                val individualTheorySubjectsExternalsPercentage = ArrayList<Int>(noOfTotalTheorySubjects)
+                for (i in 1..noOfTotalTheorySubjects) {
+                    print("   Enter Total Marks scored (out of 100) in Externals in Theory Subject $i : ")
+                    val currentSubjectsExternalsPercentage = (readLine()!!).toInt()
+                    if(currentSubjectsExternalsPercentage <= 0)
+                        throw ArithmeticException()
+                    println()
+                    individualTheorySubjectsExternalsPercentage.add(currentSubjectsExternalsPercentage)
+                }
+                println("Laboratory Externals Examination : ")
+                println()
+                val individualLaboratorySubjectsExternalsPercentage = ArrayList<Int>(noOfTotalLaboratorySubjects)
+                for (i in 1..noOfTotalLaboratorySubjects) {
+                    print("   Enter Total Marks scored (out of 100) in Externals in Laboratory Subject $i : ")
+                    val currentSubjectsExternalsPercentage = (readLine()!!).toInt()
+                    if(currentSubjectsExternalsPercentage <= 0)
+                        throw ArithmeticException()
+                    println()
+                    individualLaboratorySubjectsExternalsPercentage.add(currentSubjectsExternalsPercentage)
+                }
+                isEligibleToCalculateGPA = isEligibleToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
+                if (isEligibleToCalculateGPA) {
+                    individualTheorySubjectsGPA = calculateIndividualSubjectsGPA(individualTheorySubjectsOverallInternalsPercentage , individualTheorySubjectsExternalsPercentage , theorySubjectCredits)
+                    individualLaboratorySubjectsGPA = calculateIndividualSubjectsGPA(individualLaboratorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsExternalsPercentage , laboratorySubjectCredits)
+                    overallGPA = calculateOverallGPA(individualTheorySubjectsGPA , individualLaboratorySubjectsGPA)
+                }
+                else {
+                    reasonForUnEligibility = findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
+                    println("Note : You are not eligible for GPA Calculation as you have not passed the minimum criteria in your Externals Exam")
+                    println()
+                }
             }
             else {
-                reasonForUnEligibility = findReasonForUnEligibilityToCalculateGPA(individualTheorySubjectsExternalsPercentage , individualLaboratorySubjectsExternalsPercentage)
-                println("Note : You are not eligible for GPA Calculation as you have not passed the minimum criteria in your Externals Exam")
+                reasonForUnEligibility = findReasonForUnEligibilityToWriteExternals(overallAttendancePercentageForTheoryClasses , overallAttendancePercentageForLaboratoryClasses , individualTheorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsOverallInternalsPercentage)
+                println("Note : You cannot write Externals as you have not passed the minimum criteria to be eligible for it.")
                 println()
             }
+
+            displayAcademicResults(isEligibleToWriteExternals, isEligibleToCalculateGPA)
         }
-        else {
-            reasonForUnEligibility = findReasonForUnEligibilityToWriteExternals(overallAttendancePercentageForTheoryClasses , overallAttendancePercentageForLaboratoryClasses , individualTheorySubjectsOverallInternalsPercentage , individualLaboratorySubjectsOverallInternalsPercentage)
-            println("Note : You cannot write Externals as you have not passed the minimum criteria to be eligible for it.")
+        catch(e: NumberFormatException) {
+            println()
+            println("Please enter a proper integer. Try again")
             println()
         }
-
-        displayAcademicResults(isEligibleToWriteExternals , isEligibleToCalculateGPA)
+        catch(e: ArithmeticException) {
+            println()
+            println("Invalid Input! Please enter a proper input. Try again")
+            println()
+        }
     }
 
     fun displayWorksMenu() {
@@ -443,16 +507,26 @@ class AttendancePerformanceEvaluator {
 }
 
 fun main(args: Array <String>) {
-    var repeat: Int
+    var repeat = 0
     val objectForAttendancePerformanceEvaluator = AttendancePerformanceEvaluator()
     do {
-        when(objectForAttendancePerformanceEvaluator.displayMenu()) {
+        when (objectForAttendancePerformanceEvaluator.displayMenu()) {
             1 -> objectForAttendancePerformanceEvaluator.displayCalculateMenu()
             2 -> objectForAttendancePerformanceEvaluator.displayWorksMenu()
         }
         println()
-        print("Do you want to continue (1 / 0) : ")
-        repeat = (readLine()!!).toInt()
-        println()
-    } while(repeat == 1)
+        var check: Boolean
+        do {
+            try {
+                print("Do you want to continue (1 / 0) : ")
+                repeat = (readLine()!!).toInt()
+                println()
+                check = false
+            } catch (e: NumberFormatException) {
+                println("Please enter a proper integer")
+                println()
+                check = true
+            }
+        } while(check)
+    } while (repeat == 1)
 }
